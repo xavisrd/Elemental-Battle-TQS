@@ -52,4 +52,90 @@ public class CharacterTest {
         assertNotNull(name);
         assertEquals("Mage", name);
     }
+    
+    /**
+     * TEST 3 - TDD VERSION 2
+     * Cas de prova: Creació de personatge amb atributs de combat
+     * 
+     * Es proven les particions equivalents i valors límit dels paràmetres 
+     * health, attack, defense i speed del constructor.
+     */
+    @Test
+    public void testCharacterStats() {
+        
+        // Partició equivalent: Atributs positius vàlids (cas normal)
+        Character warrior = new Character("Warrior", 100, 20, 10, 15);
+        assertEquals("Warrior", warrior.getName());
+        assertEquals(100, warrior.getHealth());
+        assertEquals(20, warrior.getAttack());
+        assertEquals(10, warrior.getDefense());
+        assertEquals(15, warrior.getSpeed());
+        
+        // PROVES PER AL PARÀMETRE HEALTH
+        
+        // Valor límit: Health = 0 (mínim permès)
+        Character deadChar = new Character("Dead", 0, 10, 5, 5);
+        assertEquals(0, deadChar.getHealth());
+        
+        // Valor límit: Health = 1 (cas frontera - just sobre mínim)
+        Character almostDead = new Character("Almost", 1, 10, 5, 5);
+        assertEquals(1, almostDead.getHealth());
+        
+        // Valor límit: Health molt alt (cas normal alt)
+        Character tank = new Character("Tank", 9999, 5, 50, 2);
+        assertEquals(9999, tank.getHealth());
+        
+        // Valor límit: Health negatiu -> ajustat a 0
+        Character negativeHealth = new Character("Invalid", -10, 10, 5, 5);
+        assertEquals(0, negativeHealth.getHealth());
+        
+        // PROVES PER AL PARÀMETRE ATTACK
+        
+        // Valor límit: Attack = 0 (mínim permès)
+        Character noAttack = new Character("Pacifist", 50, 0, 10, 5);
+        assertEquals(0, noAttack.getAttack());
+        
+        // Valor límit: Attack = 1 (cas frontera)
+        Character minAttack = new Character("Weak1", 50, 1, 10, 5);
+        assertEquals(1, minAttack.getAttack());
+        
+        // Valor límit: Attack negatiu -> ajustat a 0
+        Character weakChar = new Character("Weak", 50, -5, 10, 5);
+        assertEquals(0, weakChar.getAttack());
+        
+        // PROVES PER AL PARÀMETRE DEFENSE
+        
+        // Valor límit: Defense = 0 (mínim permès)
+        Character glassCannonZero = new Character("GlassZero", 50, 20, 0, 10);
+        assertEquals(0, glassCannonZero.getDefense());
+        
+        // Valor límit: Defense = 1 (cas frontera)
+        Character minDefense = new Character("GlassOne", 50, 20, 1, 10);
+        assertEquals(1, minDefense.getDefense());
+        
+        // Valor límit: Defense negatiu -> ajustat a 0
+        Character noDefense = new Character("Glass", 50, 20, -3, 10);
+        assertEquals(0, noDefense.getDefense());
+        
+        // PROVES PER AL PARÀMETRE SPEED
+        
+        // Valor límit: Speed = 0 (mínim permès)
+        Character slowChar = new Character("Slow", 50, 10, 10, 0);
+        assertEquals(0, slowChar.getSpeed());
+        
+        // Valor límit: Speed = 1 (cas frontera)
+        Character minSpeed = new Character("SlowOne", 50, 10, 10, 1);
+        assertEquals(1, minSpeed.getSpeed());
+        
+        // Valor límit: Speed negatiu -> ajustat a 0
+        Character negativeSpeed = new Character("Frozen", 50, 10, 10, -2);
+        assertEquals(0, negativeSpeed.getSpeed());
+        
+        // Partició: Tots els atributs negatius (cas extrem)
+        Character allNegative = new Character("Invalid", -10, -5, -3, -1);
+        assertEquals(0, allNegative.getHealth());
+        assertEquals(0, allNegative.getAttack());
+        assertEquals(0, allNegative.getDefense());
+        assertEquals(0, allNegative.getSpeed());
+    }
 }
