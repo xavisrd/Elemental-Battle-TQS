@@ -70,6 +70,13 @@ public class CharacterTest {
         assertEquals(20, warrior.getAttack());
         assertEquals(10, warrior.getDefense());
         assertEquals(15, warrior.getSpeed());
+
+        // Partició: Tots els atributs negatius (cas extrem)
+        Character allNegative = new Character("Invalid", -10, -5, -3, -1);
+        assertEquals(0, allNegative.getHealth());
+        assertEquals(0, allNegative.getAttack());
+        assertEquals(0, allNegative.getDefense());
+        assertEquals(0, allNegative.getSpeed());
         
         // PROVES PER AL PARÀMETRE HEALTH
         
@@ -130,12 +137,36 @@ public class CharacterTest {
         // Valor límit: Speed negatiu -> ajustat a 0
         Character negativeSpeed = new Character("Frozen", 50, 10, 10, -2);
         assertEquals(0, negativeSpeed.getSpeed());
+    }
+    
+    /**
+     * TEST 4 - TDD VERSION 3
+     * Cas de prova: Creació de personatge amb element
+     * 
+     * CAIXA NEGRA - Particions equivalents del paràmetre element:
+     *   - Personatge amb element FIRE
+     *   - Personatge amb element WATER
+     *   - Personatge amb element GRASS
+     *   - Personatge sense element (null - constructor sense element)
+     */
+    @Test
+    public void testCharacterWithElement() {
         
-        // Partició: Tots els atributs negatius (cas extrem)
-        Character allNegative = new Character("Invalid", -10, -5, -3, -1);
-        assertEquals(0, allNegative.getHealth());
-        assertEquals(0, allNegative.getAttack());
-        assertEquals(0, allNegative.getDefense());
-        assertEquals(0, allNegative.getSpeed());
+        // Partició: Personatge amb element FIRE
+        Character fireChar = new Character("Blaze", 100, 25, 10, 15, Element.FIRE);
+        assertEquals("Blaze", fireChar.getName());
+        assertEquals(Element.FIRE, fireChar.getElement());
+        
+        // Partició: Personatge amb element WATER
+        Character waterChar = new Character("Aqua", 100, 20, 15, 12, Element.WATER);
+        assertEquals(Element.WATER, waterChar.getElement());
+        
+        // Partició: Personatge amb element GRASS
+        Character grassChar = new Character("Leaf", 100, 22, 12, 18, Element.GRASS);
+        assertEquals(Element.GRASS, grassChar.getElement());
+        
+        // Partició: Personatge sense element (constructor sense paràmetre element)
+        Character noElement = new Character("Neutral", 100, 20, 10, 15);
+        assertNull(noElement.getElement());
     }
 }
