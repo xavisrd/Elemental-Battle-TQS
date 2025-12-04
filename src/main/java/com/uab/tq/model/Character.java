@@ -88,14 +88,37 @@ public class Character {
     /**
      * Calcula el damage que aquest personatge fa a un altre
      * 
-     * VERSIÓ 1: Càlcul bàsic sense considerar elements
-     * Fórmula: damage = Math.max(0, attack - defense del defensor)
+     * VERSIÓ 2: Càlcul amb multiplicadors d'elements
+     * Fórmula: damage = Math.max(0, (attack - defense) * multiplicador)
+     * Multiplicador:
+     *   - 1.5 si l'atacant té avantatge elemental
+     *   - 0.5 si l'atacant té desavantatge elemental
+     *   - 1.0 en cas contrari (neutral)
+     * 
+     * CAIXA BLANCA: Aquest mètode conté decisions per a Decision/Condition/Path Coverage
      * 
      * @param defender El personatge que rep l'atac
      * @return El damage calculat (sempre >= 0)
      */
     public int calculateDamage(Character defender) {
         int baseDamage = this.attack - defender.getDefense();
-        return Math.max(0, baseDamage);
+        
+        // Aplicar multiplicador elemental
+        double multiplier = 1.0;
+        
+        if (this.element != null && defender.getElement() != null) {
+            // Comprovar avantatge
+            if (this.element.isStrongAgainst(defender.getElement())) {
+                multiplier = 1.5;
+            }
+            // Comprovar desavantatge
+            else if (this.element.isWeakAgainst(defender.getElement())) {
+                multiplier = 0.5;
+            }
+            // Si no, es manté 1.0 (neutral)
+        }
+        
+        double finalDamage = baseDamage * multiplier;
+        return Math.max(0, (int) Math.round(finalDamage));
     }
 }
