@@ -236,4 +236,64 @@ public class CharacterTest {
         Character minDefender = new Character("MinDefense", 100, 10, 1, 10);
         assertEquals(29, attacker1.calculateDamage(minDefender)); // 30 - 1 = 29
     }
+    
+    /**
+     * TEST 6 - TDD VERSION 2
+     * Cas de prova: Càlcul de damage amb multiplicadors d'elements
+     * 
+     * CAIXA NEGRA - Particions equivalents segons relació d'elements:
+     *   - Atacant amb avantatge elemental (element fort) -> damage x1.5
+     *   - Atacant amb desavantatge elemental (element dèbil) -> damage x0.5
+     *   - Sense relació elemental (mateix element, sense elements, o neutral) -> damage x1.0
+     */
+    @Test
+    public void testCalculateDamageWithElements() {
+        
+        // Partició: AVANTATGE ELEMENTAL (damage x1.5)
+        
+        // FIRE vs GRASS (fort)
+        Character fireChar = new Character("Blaze", 100, 30, 10, 15, Element.FIRE);
+        Character grassChar = new Character("Leaf", 100, 10, 10, 12, Element.GRASS);
+        assertEquals(30, fireChar.calculateDamage(grassChar)); // (30-10) * 1.5 = 30
+        
+        // WATER vs FIRE (fort)
+        Character waterChar = new Character("Aqua", 100, 40, 10, 15, Element.WATER);
+        Character fireChar2 = new Character("Ember", 100, 10, 15, 12, Element.FIRE);
+        assertEquals(37, waterChar.calculateDamage(fireChar2)); // (40-15) * 1.5 = 37.5 -> 37
+        
+        // GRASS vs WATER (fort)
+        Character grassChar2 = new Character("Vine", 100, 20, 10, 18, Element.GRASS);
+        Character waterChar2 = new Character("Wave", 100, 10, 5, 10, Element.WATER);
+        assertEquals(22, grassChar2.calculateDamage(waterChar2)); // (20-5) * 1.5 = 22.5 -> 22
+        
+        // Partició: DESAVANTATGE ELEMENTAL (damage x0.5)
+        
+        // FIRE vs WATER (dèbil)
+        assertEquals(10, fireChar.calculateDamage(waterChar2)); // (30-5) * 0.5 = 12.5 -> 12
+        
+        // WATER vs GRASS (dèbil)
+        assertEquals(15, waterChar.calculateDamage(grassChar)); // (40-10) * 0.5 = 15
+        
+        // GRASS vs FIRE (dèbil)
+        assertEquals(5, grassChar2.calculateDamage(fireChar)); // (20-10) * 0.5 = 5
+        
+        // Partició: NEUTRAL (damage x1.0, sense multiplicador)
+        
+        // Mateix element (FIRE vs FIRE)
+        Character fireChar3 = new Character("Inferno", 100, 25, 10, 14, Element.FIRE);
+        assertEquals(15, fireChar3.calculateDamage(fireChar)); // (25-10) * 1.0 = 15
+        
+        // Atacant sense element
+        Character noElementAttacker = new Character("Neutral1", 100, 30, 10, 15);
+        assertEquals(20, noElementAttacker.calculateDamage(fireChar)); // (30-10) * 1.0 = 20
+        
+        // Defensor sense element
+        Character noElementDefender = new Character("Neutral2", 100, 10, 10, 15);
+        assertEquals(20, fireChar.calculateDamage(noElementDefender)); // (30-10) * 1.0 = 20
+        
+        // Ambdós sense element
+        Character noElement1 = new Character("Plain1", 100, 20, 10, 15);
+        Character noElement2 = new Character("Plain2", 100, 10, 8, 12);
+        assertEquals(12, noElement1.calculateDamage(noElement2)); // (20-8) * 1.0 = 12
+    }
 }
