@@ -259,17 +259,17 @@ public class CharacterTest {
         // WATER vs FIRE (fort)
         Character waterChar = new Character("Aqua", 100, 40, 10, 15, Element.WATER);
         Character fireChar2 = new Character("Ember", 100, 10, 15, 12, Element.FIRE);
-        assertEquals(37, waterChar.calculateDamage(fireChar2)); // (40-15) * 1.5 = 37.5 -> 37
+        assertEquals(38, waterChar.calculateDamage(fireChar2)); // (40-15) * 1.5 = 37.5 -> 38 (rounded)
         
         // GRASS vs WATER (fort)
         Character grassChar2 = new Character("Vine", 100, 20, 10, 18, Element.GRASS);
         Character waterChar2 = new Character("Wave", 100, 10, 5, 10, Element.WATER);
-        assertEquals(22, grassChar2.calculateDamage(waterChar2)); // (20-5) * 1.5 = 22.5 -> 22
+        assertEquals(23, grassChar2.calculateDamage(waterChar2)); // (20-5) * 1.5 = 22.5 -> 23 (rounded)
         
         // Partició: DESAVANTATGE ELEMENTAL (damage x0.5)
         
         // FIRE vs WATER (dèbil)
-        assertEquals(10, fireChar.calculateDamage(waterChar2)); // (30-5) * 0.5 = 12.5 -> 12
+        assertEquals(13, fireChar.calculateDamage(waterChar2)); // (30-5) * 0.5 = 12.5 -> 13 (rounded)
         
         // WATER vs GRASS (dèbil)
         assertEquals(15, waterChar.calculateDamage(grassChar)); // (40-10) * 0.5 = 15
