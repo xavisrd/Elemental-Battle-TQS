@@ -4,7 +4,7 @@ package com.uab.tq.model;
  * Classe Character - Model (MVC)
  * Representa un personatge de combat amb atributs
  * 
- * VERSIÓ 3: Afegit atribut Element
+ * VERSIÓ 4: Afegit mètode calculateDamage()
  * Validació: Els atributs negatius s'ajusten a 0
  */
 public class Character {
@@ -83,5 +83,19 @@ public class Character {
     
     public Element getElement() {
         return this.element;
+    }
+    
+    /**
+     * Calcula el damage que aquest personatge fa a un altre
+     * 
+     * VERSIÓ 1: Càlcul bàsic sense considerar elements
+     * Fórmula: damage = Math.max(0, attack - defense del defensor)
+     * 
+     * @param defender El personatge que rep l'atac
+     * @return El damage calculat (sempre >= 0)
+     */
+    public int calculateDamage(Character defender) {
+        int baseDamage = this.attack - defender.getDefense();
+        return Math.max(0, baseDamage);
     }
 }
