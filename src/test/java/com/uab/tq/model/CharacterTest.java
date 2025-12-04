@@ -296,4 +296,68 @@ public class CharacterTest {
         Character noElement2 = new Character("Plain2", 100, 10, 8, 12);
         assertEquals(12, noElement1.calculateDamage(noElement2)); // (20-8) * 1.0 = 12
     }
+    
+    @Test
+    public void testReceiveDamage() {
+        
+        // Partició: DANY POSITIU (health disminueix)
+        
+        Character char1 = new Character("Test", 100, 10, 10, 10);
+        char1.receiveDamage(30);
+        assertEquals(70, char1.getHealth()); // 100 - 30 = 70
+        
+        char1.receiveDamage(20);
+        assertEquals(50, char1.getHealth()); // 70 - 20 = 50
+        
+        // Valor frontera: dany igual a health
+        char1.receiveDamage(50);
+        assertEquals(0, char1.getHealth()); // 50 - 50 = 0
+        
+        // Partició: DANY MAJOR QUE HEALTH (health no pot ser negatiu)
+        
+        Character char2 = new Character("Test2", 50, 10, 10, 10);
+        char2.receiveDamage(100);
+        assertEquals(0, char2.getHealth()); // 50 - 100 = -50 → 0
+        
+        char2.receiveDamage(20); // Ja està mort, segueix a 0
+        assertEquals(0, char2.getHealth());
+        
+        // Partició: DANY ZERO (no afecta health)
+        
+        Character char3 = new Character("Test3", 80, 10, 10, 10);
+        char3.receiveDamage(0);
+        assertEquals(80, char3.getHealth());
+        
+        // Partició: DANY NEGATIU (no afecta health)
+        
+        char3.receiveDamage(-10);
+        assertEquals(80, char3.getHealth());
+    }
+    
+    @Test
+    public void testIsDead() {
+        
+        // Partició: HEALTH POSITIU (viu)
+        
+        Character char1 = new Character("Alive", 100, 10, 10, 10);
+        assertFalse(char1.isDead());
+        
+        char1.receiveDamage(50);
+        assertFalse(char1.isDead()); // health = 50
+        
+        // Valor frontera: health = 1
+        char1.receiveDamage(49);
+        assertFalse(char1.isDead()); // health = 1
+        
+        // Partició: HEALTH ZERO (mort)
+        
+        char1.receiveDamage(1);
+        assertTrue(char1.isDead()); // health = 0
+        
+        // Partició: HEALTH NEGATIU (mort, però forçat a 0)
+        
+        Character char2 = new Character("Dead", 30, 10, 10, 10);
+        char2.receiveDamage(100);
+        assertTrue(char2.isDead()); // health = 0
+    }
 }
