@@ -121,4 +121,27 @@ public class Character {
         double finalDamage = baseDamage * multiplier;
         return Math.max(0, (int) Math.round(finalDamage));
     }
+    
+    /**
+     * Rep dany i actualitza la health
+     * 
+     * @param damage Quantitat de dany a rebre
+     */
+    public void receiveDamage(int damage) {
+        if (damage > 0) {
+            this.health -= damage;
+            if (this.health < 0) {
+                this.health = 0;
+            }
+        }
+    }
+    
+    /**
+     * Comprova si el personatge està mort
+     * 
+     * @return true si health <= 0, false altrament
+     */
+    public boolean isDead() {
+        return this.health <= 0;
+    }
 }
