@@ -169,4 +169,71 @@ public class CharacterTest {
         Character noElement = new Character("Neutral", 100, 20, 10, 15);
         assertNull(noElement.getElement());
     }
+    
+    /**
+     * TEST 5 - TDD VERSION 1
+     * Cas de prova: Càlcul de damage bàsic entre personatges
+     * 
+     * CAIXA NEGRA - Particions equivalents del paràmetre attack vs defense:
+     *   - Attack > Defense (damage positiu)
+     *   - Attack < Defense (damage = 0)
+     *   - Attack = Defense (damage = 0)
+     * 
+     * Fórmula bàsica: damage = Math.max(0, attack - defense)
+     */
+    @Test
+    public void testCalculateDamageBasic() {
+        
+        // Partició: Attack > Defense (damage positiu)
+        
+        Character attacker1 = new Character("Warrior", 100, 30, 10, 15);
+        Character defender1 = new Character("Mage", 100, 10, 15, 10);
+        assertEquals(15, attacker1.calculateDamage(defender1)); // 30 - 15 = 15
+        
+        Character attacker2 = new Character("Knight", 100, 50, 10, 12);
+        Character defender2 = new Character("Archer", 100, 10, 20, 18);
+        assertEquals(30, attacker2.calculateDamage(defender2)); // 50 - 20 = 30
+        
+        Character attacker3 = new Character("Berserker", 100, 40, 10, 10);
+        Character defender3 = new Character("Rogue", 100, 10, 5, 20);
+        assertEquals(35, attacker3.calculateDamage(defender3)); // 40 - 5 = 35
+        
+        // Partició: Attack < Defense (damage = 0, no pot ser negatiu)
+        
+        Character weakAttacker1 = new Character("Weak1", 100, 5, 10, 15);
+        Character strongDefender1 = new Character("Tank1", 100, 10, 20, 10);
+        assertEquals(0, weakAttacker1.calculateDamage(strongDefender1)); // 5 - 20 = -15 -> 0
+        
+        Character weakAttacker2 = new Character("Weak2", 100, 10, 10, 15);
+        Character strongDefender2 = new Character("Tank2", 100, 10, 30, 10);
+        assertEquals(0, weakAttacker2.calculateDamage(strongDefender2)); // 10 - 30 = -20 -> 0
+        
+        // Partició: Attack = Defense (damage = 0)
+        
+        Character equal1 = new Character("Equal1", 100, 15, 10, 15);
+        Character equal2 = new Character("Equal2", 100, 10, 15, 10);
+        assertEquals(0, equal1.calculateDamage(equal2)); // 15 - 15 = 0
+        
+        Character equal3 = new Character("Equal3", 100, 25, 10, 12);
+        Character equal4 = new Character("Equal4", 100, 10, 25, 14);
+        assertEquals(0, equal3.calculateDamage(equal4)); // 25 - 25 = 0
+        
+        // Valors límit
+        
+        // Valor límit: Attack = 0 (mínim)
+        Character noAttacker = new Character("NoAttack", 100, 0, 10, 15);
+        assertEquals(0, noAttacker.calculateDamage(defender1)); // 0 - 15 = -15 -> 0
+        
+        // Valor límit: Defense = 0 (mínim)
+        Character noDefender = new Character("NoDefense", 100, 10, 0, 10);
+        assertEquals(30, attacker1.calculateDamage(noDefender)); // 30 - 0 = 30
+        
+        // Valor límit: Attack = 1 (cas frontera)
+        Character minAttacker = new Character("MinAttack", 100, 1, 10, 15);
+        assertEquals(0, minAttacker.calculateDamage(defender1)); // 1 - 15 = -14 -> 0
+        
+        // Valor límit: Defense = 1 (cas frontera)  
+        Character minDefender = new Character("MinDefense", 100, 10, 1, 10);
+        assertEquals(29, attacker1.calculateDamage(minDefender)); // 30 - 1 = 29
+    }
 }
