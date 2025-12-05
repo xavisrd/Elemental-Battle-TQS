@@ -68,4 +68,71 @@ public class BattleTest {
         // Amb 100 iteracions, estadísticament ambdós haurien d'aparèixer
         assertTrue(foundChar1 && foundChar2, "L'aleatorietat hauria de retornar ambdós personatges");
     }
+    
+    @Test
+    public void testExecuteTurn() {
+        
+        // Partició: AMBDÓS PERSONATGES VIUS (atac normal)
+        
+        // PATH 1: Atac normal, defender sobreviu
+        Character warrior = new Character("Warrior", 100, 30, 10, 15, Element.FIRE);
+        Character mage = new Character("Mage", 100, 20, 5, 12, Element.WATER);
+        
+        Battle battle1 = new Battle(warrior, mage);
+        int initialHealth = mage.getHealth();
+        
+        battle1.executeTurn();
+        
+        // Warrior més ràpid, ataca primer
+        assertTrue(mage.getHealth() < initialHealth, "El defensor hauria de rebre dany");
+        assertFalse(mage.isDead(), "El defensor hauria de seguir viu");
+        
+        // PATH 2: Atac letal, defender mor
+        Character strongAttacker = new Character("Strong", 100, 50, 10, 15);
+        Character weakDefender = new Character("Weak", 20, 10, 5, 10);
+        
+        Battle battle2 = new Battle(strongAttacker, weakDefender);
+        battle2.executeTurn();
+        
+        assertTrue(weakDefender.isDead(), "El defensor hauria de morir");
+        assertEquals(0, weakDefender.getHealth());
+        
+        // Partició: ATTACKER MORT (no ataca)
+        
+        // PATH 3: Attacker ja mort abans del torn
+        Character deadAttacker = new Character("Dead", 0, 30, 10, 20);
+        Character aliveDefender = new Character("Alive", 100, 20, 5, 10);
+        
+        Battle battle3 = new Battle(deadAttacker, aliveDefender);
+        int defenderHealthBefore = aliveDefender.getHealth();
+        
+        battle3.executeTurn();
+        
+        assertEquals(defenderHealthBefore, aliveDefender.getHealth(), "Defender no hauria de rebre dany");
+        
+        // Partició: DEFENDER MORT (no rep dany addicional)
+        
+        // PATH 4: Defender ja mort abans del torn
+        Character attacker = new Character("Attacker", 100, 30, 10, 15);
+        Character deadDefender = new Character("DeadDefender", 0, 20, 5, 12);
+        
+        Battle battle4 = new Battle(attacker, deadDefender);
+        
+        battle4.executeTurn();
+        
+        assertEquals(0, deadDefender.getHealth(), "Defender mort segueix a 0");
+        
+        // Partició: AMBDÓS MORTS (no passa res)
+        
+        // PATH 5: Cap personatge pot actuar
+        Character dead1 = new Character("Dead1", 0, 30, 10, 15);
+        Character dead2 = new Character("Dead2", 0, 20, 5, 12);
+        
+        Battle battle5 = new Battle(dead1, dead2);
+        
+        battle5.executeTurn();
+        
+        assertEquals(0, dead1.getHealth());
+        assertEquals(0, dead2.getHealth());
+    }
 }
