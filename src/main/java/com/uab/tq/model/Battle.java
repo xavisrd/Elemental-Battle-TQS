@@ -45,4 +45,32 @@ public class Battle {
             return Math.random() < 0.5 ? character1 : character2;
         }
     }
+    
+    /**
+     * Executa un torn de combat
+     * 
+     * Path Coverage (5 paths):
+     * - PATH 1: Attacker viu + Defender viu + Defender sobreviu
+     * - PATH 2: Attacker viu + Defender viu + Defender mor
+     * - PATH 3: Attacker mort → early return
+     * - PATH 4: Attacker viu + Defender mort → early return
+     * - PATH 5: Ambdós morts → early return
+     */
+    public void executeTurn() {
+        Character attacker = determineTurnOrder();
+        Character defender = (attacker == character1) ? character2 : character1;
+        
+        // PATH 3: Attacker mort abans d'atacar
+        if (attacker.isDead()) {
+            return;
+        }
+        
+        // PATH 4: Defender ja mort
+        if (defender.isDead()) {
+            return;
+        }
+        
+        // PATH 1 i 2: Atac normal
+        attacker.attack(defender);
+    }
 }
