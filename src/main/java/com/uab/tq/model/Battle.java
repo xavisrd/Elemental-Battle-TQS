@@ -73,4 +73,32 @@ public class Battle {
         // PATH 1 i 2: Atac normal
         attacker.attack(defender);
     }
+    
+    /**
+     * Comprova si la batalla ha acabat
+     * 
+     * Decision/Condition Coverage:
+     * - CONDITION 1: character1.isDead()
+     * - CONDITION 2: character2.isDead()
+     * - DECISION: character1.isDead() || character2.isDead()
+     * 
+     * @return true si algun personatge està mort, false altrament
+     */
+    public boolean isFinished() {
+        return character1.isDead() || character2.isDead();
+    }
+    
+    /**
+     * Executa una ronda completa de combat fins que algú mori
+     * 
+     * Loop Testing (Nested):
+     * - Loop extern: while (!isFinished()) - continua fins que la batalla acabi
+     * - Loop intern: executeTurn() - cada torn pot tenir múltiples decisions
+     */
+    public void executeRound() {
+        // Loop testing: continua executant torns fins que la batalla acabi
+        while (!isFinished()) {
+            executeTurn();
+        }
+    }
 }
