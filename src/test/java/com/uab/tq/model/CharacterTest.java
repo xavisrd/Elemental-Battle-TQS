@@ -360,4 +360,56 @@ public class CharacterTest {
         char2.receiveDamage(100);
         assertTrue(char2.isDead()); // health = 0
     }
+    
+    @Test
+    public void testAttack() {
+        
+        // Partició: TARGET SOBREVIU (health > 0 després de l'atac)
+        
+        Character attacker = new Character("Warrior", 100, 30, 10, 15);
+        Character target = new Character("Enemy", 100, 10, 10, 12);
+        
+        attacker.attack(target);
+        assertEquals(80, target.getHealth()); // 100 - 20 = 80
+        assertFalse(target.isDead());
+        
+        attacker.attack(target);
+        assertEquals(60, target.getHealth()); // 80 - 20 = 60
+        assertFalse(target.isDead());
+        
+        // Partició: TARGET MOR (health = 0 després de l'atac)
+        
+        attacker.attack(target); // 60 - 20 = 40
+        attacker.attack(target); // 40 - 20 = 20
+        attacker.attack(target); // 20 - 20 = 0
+        assertEquals(0, target.getHealth());
+        assertTrue(target.isDead());
+        
+        // Partició: DANY EXACTE LETAL (health = dany)
+        
+        Character attacker2 = new Character("Mage", 100, 35, 10, 15);
+        Character target2 = new Character("Minion", 25, 10, 10, 10);
+        
+        attacker2.attack(target2); // damage = 35-10 = 25, health = 25-25 = 0
+        assertEquals(0, target2.getHealth());
+        assertTrue(target2.isDead());
+        
+        // Partició: DANY AMB AVANTATGE ELEMENTAL
+        
+        Character fireAttacker = new Character("Blaze", 100, 30, 10, 15, Element.FIRE);
+        Character grassTarget = new Character("Leaf", 80, 10, 10, 12, Element.GRASS);
+        
+        fireAttacker.attack(grassTarget); // (30-10)*1.5 = 30
+        assertEquals(50, grassTarget.getHealth()); // 80 - 30 = 50
+        assertFalse(grassTarget.isDead());
+        
+        // Partició: ATACAR OBJECTIU JA MORT (no hauria de canviar res)
+        
+        Character deadTarget = new Character("Ghost", 0, 10, 10, 10);
+        assertTrue(deadTarget.isDead());
+        
+        attacker.attack(deadTarget);
+        assertEquals(0, deadTarget.getHealth()); // Segueix a 0
+        assertTrue(deadTarget.isDead());
+    }
 }
