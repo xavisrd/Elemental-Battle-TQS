@@ -144,4 +144,14 @@ public class Character {
     public boolean isDead() {
         return this.health <= 0;
     }
+    
+    /**
+     * Ataca a un personatge objectiu
+     * 
+     * @param target El personatge a atacar
+     */
+    public void attack(Character target) {
+        int damage = this.calculateDamage(target);
+        target.receiveDamage(damage);
+    }
 }
