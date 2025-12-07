@@ -1,0 +1,13 @@
+TestType,Char1Name,Char1Health,Char2Name,Char2Health,Damage,ExpectedOutput
+BattleStatus,Hero,100,Enemy,80,0,"Hero [100 HP] vs Enemy [80 HP]"
+BattleStatus,Knight,50,Wizard,75,0,"Knight [50 HP] vs Wizard [75 HP]"
+BattleStatus,Champion,1,Villain,99,0,"Champion [1 HP] vs Villain [99 HP]"
+BattleStatus,A,0,B,100,0,"A [0 HP] vs B [100 HP]"
+Attack,Warrior,100,Mage,80,25,"Warrior attacks Mage for 25 damage!"
+Attack,Knight,50,Dragon,100,15,"Knight attacks Dragon for 15 damage!"
+Attack,Hero,75,Boss,50,0,"Hero attacks Boss for 0 damage!"
+Attack,Tank,100,Enemy,80,50,"Tank attacks Enemy for 50 damage!"
+Winner,Champion,100,NULL,0,0,"Champion wins the battle!"
+Winner,Victor,50,NULL,0,0,"Victor wins the battle!"
+Winner,Hero,1,NULL,0,0,"Hero wins the battle!"
+Winner,LongNameCharacter,100,NULL,0,0,"LongNameCharacter wins the battle!"
