@@ -28,4 +28,15 @@ public class BattleController {
     public ConsoleView getView() {
         return view;
     }
+    
+    /**
+     * Inicia una nova batalla entre dos personatges
+     * 
+     * @param character1 Primer personatge
+     * @param character2 Segon personatge
+     */
+    public void startBattle(Character character1, Character character2) {
+        this.battle = new Battle(character1, character2);
+        view.displayBattleStatus(character1, character2);
+    }
 }
