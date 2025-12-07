@@ -154,4 +154,22 @@ public class Character {
         int damage = this.calculateDamage(target);
         target.receiveDamage(damage);
     }
+    
+    /**
+     * Modifica la salut del personatge
+     * 
+     * @param health Nova salut (mínim 0, màxim 100)
+     */
+    public void setHealth(int health) {
+        this.health = Math.max(0, Math.min(100, health));
+    }
+    
+    /**
+     * Modifica la defensa del personatge
+     * 
+     * @param defense Nova defensa (mínim 0)
+     */
+    public void setDefense(int defense) {
+        this.defense = Math.max(0, defense);
+    }
 }
