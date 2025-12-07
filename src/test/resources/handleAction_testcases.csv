@@ -1,0 +1,13 @@
+Action,SourceHealth,SourceDefense,TargetHealth,ExpectedBehavior
+ATTACK,100,10,50,AttackExecuted
+ATTACK,100,10,0,NoAttack
+ATTACK,50,20,80,AttackExecuted
+DEFEND,80,30,50,DefenseBoost
+DEFEND,100,60,50,NoBoost
+DEFEND,50,45,80,DefenseBoost
+ITEM,80,10,50,HealApplied
+ITEM,100,10,50,NoHeal
+ITEM,50,20,80,HealApplied
+ATTACK,1,5,100,AttackExecuted
+DEFEND,100,49,50,DefenseBoost
+ITEM,99,10,50,HealApplied
