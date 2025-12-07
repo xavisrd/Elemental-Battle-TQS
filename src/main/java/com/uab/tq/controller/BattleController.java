@@ -39,4 +39,20 @@ public class BattleController {
         this.battle = new Battle(character1, character2);
         view.displayBattleStatus(character1, character2);
     }
+    
+    /**
+     * Processa una ronda de batalla
+     * Executa una ronda completa i mostra l'estat resultant
+     * 
+     * @param battle Batalla a processar
+     */
+    public void processRound(Battle battle) {
+        // Si la batalla ja està acabada, només mostrem l'estat
+        if (!battle.isFinished()) {
+            battle.executeRound();
+        }
+        
+        // Mostrar l'estat després de la ronda
+        view.displayBattleStatus(battle.getCharacter1(), battle.getCharacter2());
+    }
 }
